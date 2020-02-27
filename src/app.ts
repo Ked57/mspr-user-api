@@ -1,10 +1,42 @@
-import { initializeServer } from "./server";
-import { registerRoutes } from "./routes";
+import * as Hapi from "@hapi/hapi";
+import * as HapiSwagger from "hapi-swagger";
+import * as Inert from "@hapi/inert";
+import * as Vision from "@hapi/vision";
+import { routes } from "./routing";
 
-const main = async () => {
-    const schema = await import("../schema.json");
-    const server = initializeServer(schema);
-    registerRoutes(server, schema);      
-}
+// code omitted for brevity
 
-main();
+(async () => {
+  const server = await new Hapi.Server({
+    host: "localhost",
+    port: 3000
+  });
+  const swaggerOptions: HapiSwagger.RegisterOptions = {
+    info: {
+      title: "Test API Documentation"
+    }
+  };
+
+  const plugins: Array<Hapi.ServerRegisterPluginObject<any>> = [
+    {
+      plugin: Inert
+    },
+    {
+      plugin: Vision
+    },
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions
+    }
+  ];
+
+  await server.register(plugins);
+  await server.route(routes);
+
+  try {
+    await server.start();
+    console.log("Server running at:", server.info.uri);
+  } catch (err) {
+    console.log(err);
+  }
+})();
