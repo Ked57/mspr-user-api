@@ -10,7 +10,7 @@ steps:
   - name: lint
     image: node:12
     commands:
-      - npm run prettier:check
+      - npm run format:check
     depends_on: [install_dependencies]
   - name: test
     image: node:12
