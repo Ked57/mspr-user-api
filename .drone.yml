@@ -46,7 +46,7 @@ steps:
       - git commit -m "Added New Changelog"
       - git push
 
-  environment:
+    environment:
       CI_REPOSITORY_URL:
         from_secret: CI_REPOSITORY_URL
       CI_SSH_KEY:
