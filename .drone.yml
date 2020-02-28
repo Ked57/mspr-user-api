@@ -42,7 +42,7 @@ steps:
       - mkdir ~/.ssh
       - echo $CI_SSH_KEY > ~/.ssh/id_rsa
       - gem install github_changelog_generator
-      - github_changelog_generator -u "Ked57" -p "mspr-user-api" -o CHANGELOG.md --token 7468fe12948b508fabd1441b73ca62b1c51488b0
+      - github_changelog_generator -u "Ked57" -p "mspr-user-api" -o ./CHANGELOG.md --token "3898bac33009df7c4d076fc9eae9888af0800e7d"
       - ls -la
       - pwd
       - git status && git add . && git commit -m "Added New Changelog" && git push
