@@ -38,11 +38,6 @@ export const initUsersRoute = (prisma: PrismaClient): ServerRoute[] => [
       description: "Get a user",
       notes: "Returns an user item by the id passed in the path",
       tags: ["api"],
-      validate: {
-        params: {
-          schema: Joi.string().required()
-        }
-      },
       response: {
         status: {
           200: userModel,
