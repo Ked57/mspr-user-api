@@ -33,6 +33,7 @@ steps:
       - echo $CI_SSH_KEY > ~/.ssh/id_rsa
       - pip install -r .semver/requirements.txt
       - python .semver/main.py
+    depends_on: [install_dependencies]
 
   - name: Changelog
     image: ruby:2.6.4-alpine3.9
@@ -45,6 +46,7 @@ steps:
       - git add .
       - git commit -m "Added New Changelog"
       - git push
+    depends_on: [install_dependencies]
 
     environment:
       CI_REPOSITORY_URL:
