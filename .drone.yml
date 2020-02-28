@@ -3,12 +3,22 @@ type: kubernetes
 name: default
 
 steps:
-  - name: say hello
+  - name: install_dependencies
     image: node:12
     commands:
-      - echo hello
-
-trigger:
-  branch:
-  - master
-  
+      - npm ci
+  - name: lint
+    image: node:12
+    commands:
+      - npm run prettier:check
+    depends_on: [install_dependencies]
+  - name: test
+    image: node:12
+    commands:
+      - npm run test
+    depends_on: [install_dependencies]
+  - name: build
+    image: node:12
+    commands:
+      - npm run build
+    depends_on: [install_dependencies]

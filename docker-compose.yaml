@@ -2,7 +2,8 @@ version: "3"
 services:
   postgres:
     image: postgres:latest
-    ports: ["5432:5432"]
+    ports: 
+      - "5432:5432"
     environment:
       POSTGRES_USER: pg
       POSTGRES_PASSWORD: pg
