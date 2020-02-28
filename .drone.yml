@@ -26,13 +26,13 @@ steps:
       - npm run build
     depends_on: [install_dependencies]
 
-  # - name: Semantical Versionning
-  #   image: python:3.6
-  #   commands:
-  #     - mkdir ~/.ssh
-  #     - echo $CI_SSH_KEY > ~/.ssh/id_rsa
-  #     - pip install -r .semver/requirements.txt
-  #     - python .semver/main.py
+  - name: Semantical Versionning
+    image: python:3.6
+    commands:
+      - mkdir ~/.ssh
+      - echo $CI_SSH_KEY > ~/.ssh/id_rsa
+      - pip install -r .semver/requirements.txt
+      - python .semver/main.py
 
   - name: Changelog
     image: ruby:2.6.4-alpine3.9
@@ -52,7 +52,4 @@ steps:
       CI_SSH_KEY:
         from_secret: CI_SSH_KEY
     depends_on: [install_dependencies]
-    when:
-      branch:
-      - master
-      event: push
+    
