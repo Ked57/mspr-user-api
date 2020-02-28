@@ -49,7 +49,6 @@
     "pg-hstore": "^2.3.3"
   },
   "ava": {
-    "compileEnhancements": false,
     "extensions": [
       "ts"
     ],
