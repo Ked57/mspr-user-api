@@ -1,5 +1,6 @@
-import { usersRoute } from "./routes/api/users";
+import { PrismaClient } from "@prisma/client";
+import { initUsersRoute } from "./routes/user";
 
-export const routes = [
-    usersRoute
-]
+export const initRoutes = (prisma: PrismaClient) => {
+  return [...initUsersRoute(prisma)];
+};

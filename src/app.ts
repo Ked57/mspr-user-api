@@ -2,11 +2,11 @@ import * as Hapi from "@hapi/hapi";
 import * as HapiSwagger from "hapi-swagger";
 import * as Inert from "@hapi/inert";
 import * as Vision from "@hapi/vision";
-import { routes } from "./routing";
+import { initRoutes } from "./routing";
+import { PrismaClient } from "@prisma/client";
 
-// code omitted for brevity
 
-(async () => {
+  (async () => {
   const server = await new Hapi.Server({
     host: "localhost",
     port: 3000
@@ -29,7 +29,8 @@ import { routes } from "./routing";
       options: swaggerOptions
     }
   ];
-
+  const prisma = new PrismaClient();
+  const routes = initRoutes(prisma);
   await server.register(plugins);
   await server.route(routes);
 
