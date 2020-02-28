@@ -7,21 +7,25 @@ steps:
     image: node:12
     commands:
       - npm ci
+
   - name: lint
     image: node:12
     commands:
       - npm run format:check
     depends_on: [install_dependencies]
+
   - name: test
     image: node:12
     commands:
       - npm run test
     depends_on: [install_dependencies]
+
   - name: build
     image: node:12
     commands:
       - npm run build
     depends_on: [install_dependencies]
+
   - name: Semantical Versionning
     image: python:3.6
     commands:
@@ -29,17 +33,19 @@ steps:
       - echo $CI_SSH_KEY > ~/.ssh/id_rsa
       - pip install -r .semver/requirements.txt
       - python .semver/main.py
+
   - name: Changelog
     image: ruby:2.6.4-alpine3.9
     commands:
       - apk add -y git
-      - mkdir ~/.ssh 
+      - mkdir ~/.ssh
       - echo $CI_SSH_KEY > ~/.ssh/id_rsa
-      - gem install github_changelog_generator 
-      - github_changelog_generator -u Ked57 -p mspr-user-alpine
-      - git add CHANGELOG.md
+      - gem install github_changelog_generator
+      - github_changelog_generator -u "Ked57" -p "mspr-user-api"
+      - git add .
       - git commit -m "Added New Changelog"
       - git push
+
   environment:
       CI_REPOSITORY_URL:
         from_secret: CI_REPOSITORY_URL
