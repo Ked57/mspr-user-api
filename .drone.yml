@@ -43,6 +43,9 @@ steps:
       - echo $CI_SSH_KEY > ~/.ssh/id_rsa
       - gem install github_changelog_generator
       - github_changelog_generator -u "Ked57" -p "mspr-user-api"
+      - ls -la
+      - pwd
+      - git status
       - git add .
       - git commit -m "Added New Changelog"
       - git push
