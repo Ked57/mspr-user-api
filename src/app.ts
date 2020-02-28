@@ -5,8 +5,7 @@ import * as Vision from "@hapi/vision";
 import { initRoutes } from "./routing";
 import { PrismaClient } from "@prisma/client";
 
-
-  (async () => {
+(async () => {
   const server = await new Hapi.Server({
     host: "localhost",
     port: 3000
