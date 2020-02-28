@@ -29,7 +29,18 @@ steps:
       - echo $CI_SSH_KEY > ~/.ssh/id_rsa
       - pip install -r .semver/requirements.txt
       - python .semver/main.py
-    environment:
+  - name: Changelog
+    image: ruby:2.6.4-alpine3.9
+    commands:
+      - apk add -y git
+      - mkdir ~/.ssh 
+      - echo $CI_SSH_KEY > ~/.ssh/id_rsa
+      - gem install github_changelog_generator 
+      - github_changelog_generator -u Ked57 -p mspr-user-alpine
+      - git add CHANGELOG.md
+      - git commit -m "Added New Changelog"
+      - git push
+  environment:
       CI_REPOSITORY_URL:
         from_secret: CI_REPOSITORY_URL
       CI_SSH_KEY:
