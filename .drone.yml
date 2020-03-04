@@ -9,6 +9,7 @@ services:
     - 5432
     environment:
       POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
 
 steps:
@@ -19,7 +20,7 @@ steps:
   - name: prisma_generate
     image: node:12
     commands:
-      - export DATABASE_URL=postgresql://postgres@postgres:5432/postgres?schema=public
+      - export DATABASE_URL="postgresql://postgres:@localhost:5432/postgres?schema=public"
       - npx prisma2 migrate up --experimental
       - npx prisma2 generate
     depends_on: [install_dependencies]
