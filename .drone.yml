@@ -23,7 +23,7 @@ steps:
       - export DATABASE_URL="postgresql://postgres:@localhost:5432/postgres?schema=public"
       - npx prisma2 migrate up --experimental
       - npx prisma2 generate
-    depends_on: [install_dependencies]
+    depends_on: [install_dependencies, postgres]
   - name: lint
     image: node:12
     commands:
@@ -33,12 +33,12 @@ steps:
     image: node:12
     commands:
       - npm run test
-    depends_on: [prisma_generate]
+    depends_on: [prisma_generate, postgres]
   - name: build
     image: node:12
     commands:
       - npm run build
-    depends_on: [prisma_generate]
+    depends_on: [prisma_generate, postgres]
   # - name: Semantical Versionning
   #   image: python:3.6
   #   commands:
