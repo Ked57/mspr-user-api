@@ -1,3 +1,10 @@
+.add_ssh: &add_ssh |
+  mkdir ~/.ssh
+  echo $SSH_KEY > ~/.ssh/id_rsa
+  chmod 600 ~/.ssh/id_rsa
+  ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+
+
 kind: pipeline
 type: kubernetes
 name: default
@@ -43,6 +50,30 @@ steps:
     image: node:12
     commands:
       - npm run build
+    depends_on: [prisma_generate, postgres]
+  - name: documentation
+    image: node:12
+    commands:
+      - npm run doc
+      - *add_ssh
+      - git fetch --tags
+      - VERSION=$(git describe --abbrev=0 --tag | tr -d '\n')
+      - git clone $DOC_REPOSITORY_URL doc-git
+      - rm -rf doc-git/*
+      - mv doc/ doc-git/
+      - |
+        cd doc-git
+        git add .
+        git commit -m "Add doc $VERSION"
+        git tag $VERSION
+        git log
+        git push
+        git push origin --tags
+    environment:
+      DOC_REPOSITORY_URL:
+        from_secret: DOC_REPOSITORY_URL
+      SSH_KEY:
+        from_secret: DOC_SSH_KEY
     depends_on: [prisma_generate, postgres]
   # - name: Semantical Versionning
   #   image: python:3.6
