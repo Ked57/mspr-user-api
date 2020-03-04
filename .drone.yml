@@ -59,12 +59,12 @@ steps:
       - git fetch --tags
       - VERSION=$(git describe --abbrev=0 --tag | tr -d '\n')
       - git clone $DOC_REPOSITORY_URL doc-git
-      - rm -rf doc-git/*
+      - rm -rf doc-git/docs
       - mv docs/ doc-git/
       - |
         cd doc-git
         git add .
-        git commit -m "Add doc $VERSION"
+        git commit -m "Update doc $VERSION"
         git tag $VERSION
         git log
         git push
