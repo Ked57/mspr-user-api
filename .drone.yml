@@ -6,7 +6,7 @@ services:
   - name: postgres
     image: postgres
     ports:
-    - 5432
+      - 5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -29,10 +29,15 @@ steps:
     commands:
       - npm run format:check
     depends_on: [prisma_generate]
-  - name: test
+  - name: unit-test
     image: node:12
     commands:
-      - npm run test
+      - npm run test:unit
+    depends_on: [prisma_generate, postgres]
+  - name: integration-test
+    image: node:12
+    commands:
+      - npm run test:integration
     depends_on: [prisma_generate, postgres]
   - name: build
     image: node:12

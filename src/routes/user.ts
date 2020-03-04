@@ -1,7 +1,5 @@
 import { ServerRoute } from "@hapi/hapi";
-import of from "await-of";
 import { PrismaClient } from "@prisma/client";
-import { notFound, badRequest, internal } from "@hapi/boom";
 import { userModel } from "../models/user";
 import { errorModel } from "../models/error";
 import { userHandler } from "../handlers/userHandler";
