@@ -7,21 +7,26 @@ steps:
     image: node:12
     commands:
       - npm ci
+  - name: prisma_generate
+    image: node:12
+    commands:
+      - npx prisma2 generate
+    depends_on: [install_dependencies]
   - name: lint
     image: node:12
     commands:
       - npm run format:check
-    depends_on: [install_dependencies]
+    depends_on: [prisma_generate]
   - name: test
     image: node:12
     commands:
       - npm run test
-    depends_on: [install_dependencies]
+    depends_on: [prisma_generate]
   - name: build
     image: node:12
     commands:
       - npm run build
-    depends_on: [install_dependencies]
+    depends_on: [prisma_generate]
   - name: Semantical Versionning
     image: python:3.6
     commands:
@@ -34,7 +39,7 @@ steps:
         from_secret: CI_REPOSITORY_URL
       CI_SSH_KEY:
         from_secret: CI_SSH_KEY
-    depends_on: [install_dependencies]
+    depends_on: [prisma_generate]
     when:
       branch:
       - master
