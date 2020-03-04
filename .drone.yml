@@ -2,6 +2,16 @@ kind: pipeline
 type: kubernetes
 name: default
 
+services:
+  - name: postgres
+    image: postgres
+    ports:
+    - 5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
 steps:
   - name: install_dependencies
     image: node:12
@@ -10,8 +20,10 @@ steps:
   - name: prisma_generate
     image: node:12
     commands:
+      - export DATABASE_URL="postgresql://postgres:@localhost:5432/postgres?schema=public"
+      - npx prisma2 migrate up --experimental
       - npx prisma2 generate
-    depends_on: [install_dependencies]
+    depends_on: [install_dependencies, postgres]
   - name: lint
     image: node:12
     commands:
@@ -21,26 +33,26 @@ steps:
     image: node:12
     commands:
       - npm run test
-    depends_on: [prisma_generate]
+    depends_on: [prisma_generate, postgres]
   - name: build
     image: node:12
     commands:
       - npm run build
-    depends_on: [prisma_generate]
-  - name: Semantical Versionning
-    image: python:3.6
-    commands:
-      - mkdir ~/.ssh
-      - echo $CI_SSH_KEY > ~/.ssh/id_rsa
-      - pip install -r .semver/requirements.txt
-      - python .semver/main.py
-    environment:
-      CI_REPOSITORY_URL:
-        from_secret: CI_REPOSITORY_URL
-      CI_SSH_KEY:
-        from_secret: CI_SSH_KEY
-    depends_on: [prisma_generate]
-    when:
-      branch:
-      - master
-      event: push
+    depends_on: [prisma_generate, postgres]
+  # - name: Semantical Versionning
+  #   image: python:3.6
+  #   commands:
+  #     - mkdir ~/.ssh
+  #     - echo $CI_SSH_KEY > ~/.ssh/id_rsa
+  #     - pip install -r .semver/requirements.txt
+  #     - python .semver/main.py
+  #   environment:
+  #     CI_REPOSITORY_URL:
+  #       from_secret: CI_REPOSITORY_URL
+  #     CI_SSH_KEY:
+  #       from_secret: CI_SSH_KEY
+  #   depends_on: [prisma_generate]
+  #   when:
+  #     branch:
+  #     - master
+  #     event: push
