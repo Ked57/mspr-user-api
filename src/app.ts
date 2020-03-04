@@ -5,10 +5,12 @@ import * as Vision from "@hapi/vision";
 import { initRoutes } from "./routing";
 import { PrismaClient } from "@prisma/client";
 
-(async () => {
+const PORT = process.env.PORT || "3000";
+
+export const main = async (port: string) => {
   const server = await new Hapi.Server({
     host: "localhost",
-    port: 3000
+    port
   });
   const swaggerOptions: HapiSwagger.RegisterOptions = {
     info: {
@@ -39,4 +41,7 @@ import { PrismaClient } from "@prisma/client";
   } catch (err) {
     console.log(err);
   }
-})();
+  return { app: server, address: server.info.uri };
+};
+
+main(PORT);
