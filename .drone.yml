@@ -2,9 +2,14 @@ kind: pipeline
 type: kubernetes
 name: default
 
-service:
-  - name: db
+services:
+  - name: postgres
     image: postgres
+    ports:
+    - 5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
 
 steps:
   - name: install_dependencies
@@ -14,7 +19,7 @@ steps:
   - name: prisma_generate
     image: node:12
     commands:
-      - export DATABASE_URL=postgres
+      - export DATABASE_URL=postgresql://postgres@postgres:5432/postgres?schema=public
       - npx prisma2 migrate up --experimental
       - npx prisma2 generate
     depends_on: [install_dependencies]
