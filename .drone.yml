@@ -60,7 +60,7 @@ steps:
       - VERSION=$(git describe --abbrev=0 --tag | tr -d '\n')
       - git clone $DOC_REPOSITORY_URL doc-git
       - rm -rf doc-git/*
-      - mv doc/ doc-git/
+      - mv docs/ doc-git/
       - |
         cd doc-git
         git add .
