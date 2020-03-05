@@ -27,9 +27,11 @@ steps:
   - name: prisma_generate
     image: node:12
     commands:
-      - export DATABASE_URL="postgresql://postgres:@localhost:5432/postgres?schema=public"
       - npx prisma2 migrate up --experimental
       - npx prisma2 generate
+    environment:
+      TEST_DATABASE_URL:
+        from_secret: TEST_DATABASE_URL
     depends_on: [install_dependencies, postgres]
   - name: check_format
     image: node:12
