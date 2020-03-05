@@ -21,7 +21,7 @@
         "source": "db"
       },
       "argument": "url",
-      "value": "env(\"DATABASE_URL\")"
+      "value": "env(\"TEST_DATABASE_URL\")"
     },
     {
       "tag": "CreateModel",
