@@ -97,6 +97,9 @@ steps:
       tags:
         - ${DRONE_COMMIT_SHA:0:8}
         - latest
+    environment:
+      DATABASE_URL:
+        from_secret: TEST_DATABASE_URL
     depends_on: [documentation]
   # - name: Semantical Versionning
   #   image: python:3.6
