@@ -93,9 +93,7 @@ steps:
   - name: rollout
     image: pabloclsn/kubectl-docker:latest
     commands:
-      - ls -la
-      - pwd
-      - cat ./kube/deployment.yml | envsubst | kubectl apply -f -
+      - cat ./kube/deployment.yaml | envsubst | kubectl apply -f -
     environment:
       DATABASE_URL:
         from_secret: DATABASE_URL
