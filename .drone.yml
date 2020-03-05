@@ -27,6 +27,7 @@ steps:
   - name: prisma_generate
     image: node:12
     commands:
+      - echo $TEST_DATABASE_URL
       - npx prisma2 migrate up --experimental
       - npx prisma2 generate
     environment:
