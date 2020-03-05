@@ -16,7 +16,9 @@
     "prettier": "prettier .circleci/config.yml  src/{**/,}*.{ts,json} tests/{**/,}*.{ts,json}",
     "format:check": "npm run prettier -- --list-different",
     "format:fix": "npm run prettier -- --write",
-    "doc": "typedoc --options typedoc.json"
+    "doc": "typedoc --options typedoc.json",
+    "coverage:report": "nyc --reporter=lcov --reporter=text-summary ava",
+    "coverage:check": "nyc ava"
   },
   "repository": {
     "type": "git",
@@ -42,6 +44,7 @@
     "eslint-config-prettier": "^6.10.0",
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.2",
+    "nyc": "^15.0.0",
     "prettier": "^1.19.1",
     "ts-node": "^8.6.2",
     "typedoc": "^0.16.11",

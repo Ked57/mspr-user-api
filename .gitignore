@@ -2,3 +2,5 @@
 .env
 /docs
 /dist
+/.nyc_output
+/coverage

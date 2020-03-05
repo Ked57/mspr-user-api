@@ -53,6 +53,11 @@ steps:
     commands:
       - npm run test:integration
     depends_on: [unit-test]
+  - name: coverage_check
+    image: node:12
+    commands:
+      - npm run coverage:check
+    depends_on: [integration-test]
   - name: build
     image: node:12
     commands:
