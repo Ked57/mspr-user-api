@@ -10,7 +10,7 @@ export const userHandler = async (
     console.error("Error: no id provided");
     return badRequest("no id provided");
   }
-  const [res, err] = await of(userFindOne({ where: { "auth_id": paramId } }));
+  const [res, err] = await of(userFindOne({ where: { auth_id: paramId } }));
   if (err) {
     console.error(err);
     return internal(`Error: { name : ${err.name} message: ${err.message} }`);
