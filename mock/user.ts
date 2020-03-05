@@ -2,8 +2,8 @@ import { FindOneuserArgs, user } from "@prisma/client";
 
 export const userMock = [
   {
-    auth_id: "1",
-    user_name: "bobo cargo"
+    "auth_id": "1",
+    "user_name": "bobo cargo"
   }
 ];
 

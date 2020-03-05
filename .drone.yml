@@ -31,16 +31,21 @@ steps:
       - npx prisma2 migrate up --experimental
       - npx prisma2 generate
     depends_on: [install_dependencies, postgres]
-  - name: lint
+  - name: check_format
     image: node:12
     commands:
       - npm run format:check
+    depends_on: [prisma_generate]
+  - name: lint
+    image: node:12
+    commands:
+      - npm run lint
     depends_on: [prisma_generate]
   - name: unit-test
     image: node:12
     commands:
       - npm run test:unit
-    depends_on: [prisma_generate, postgres, lint]
+    depends_on: [prisma_generate, postgres, lint, check_format]
   - name: integration-test
     image: node:12
     commands:
