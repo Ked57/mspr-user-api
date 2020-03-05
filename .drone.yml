@@ -95,6 +95,8 @@ steps:
     commands:
       # - mkdir ~/.kube
       - echo $KUBE_CONFIG > ~/.kube/config
+      - echo $KUBE_CONFIG
+      - cat ~/.kube/config
       - cat .kube/deployment.yaml | envsubst | kubectl apply -f -
     environment:
       DATABASE_URL:
