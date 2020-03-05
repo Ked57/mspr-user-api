@@ -9,7 +9,7 @@ export const initUsersRoute = (prisma: PrismaClient): ServerRoute[] => [
     method: "GET",
     path: "/user/{id}",
     options: {
-      handler: async (request, h) =>
+      handler: async request =>
         userHandler(request.params.id, prisma.user.findOne as any),
       description: "Get a user",
       notes: "Returns an user item by the id passed in the path",

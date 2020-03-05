@@ -1,6 +1,6 @@
 import { of } from "await-of";
 import { badRequest, internal, notFound } from "@hapi/boom";
-import { user, FindOneuserArgs, Subset } from "@prisma/client";
+import { user, FindOneuserArgs } from "@prisma/client";
 
 export const userHandler = async (
   paramId: string,
