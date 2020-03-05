@@ -90,6 +90,15 @@ steps:
         - ${DRONE_COMMIT_SHA:0:8}
         - latest
     depends_on: [documentation]
+  - name: rollout
+    image: pabloclsn/kubectl-docker:latest
+    commands:
+      - cat .kube/deployment.yml | envsubst | kubectl apply -f -
+    environment:
+      DATABASE_URL:
+        from_secret: DATABASE_URL
+    depends_on: [docker]
+
   # - name: Semantical Versionning
   #   image: python:3.6
   #   commands:
