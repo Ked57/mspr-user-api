@@ -93,7 +93,7 @@ steps:
   - name: rollout
     image: pabloclsn/kubectl-docker:latest
     commands:
-      - ls la
+      - ls -la
       - pwd
       - cat ./kube/deployment.yml | envsubst | kubectl apply -f -
     environment:
