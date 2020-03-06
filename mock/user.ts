@@ -1,4 +1,9 @@
-import { FindOneuserArgs, user, userCreateArgs } from "@prisma/client";
+import {
+  FindOneuserArgs,
+  user,
+  userCreateArgs,
+  userUpdateArgs
+} from "@prisma/client";
 import { isUser } from "../src/utils/user.type";
 
 export const userMock = [
@@ -31,4 +36,15 @@ export const hMock = {
   response: (arg: any) => ({
     code: (code: number) => arg
   })
+};
+
+export const userUpdateMock = (args: userUpdateArgs) => {
+  const user = args.data;
+  if (!user || !user.auth_id) {
+    return Promise.reject({
+      name: "bad request",
+      message: `Provided user isn't of User type, ${user}`
+    });
+  }
+  return Promise.resolve(user as user);
 };

@@ -1,6 +1,11 @@
 import { of } from "await-of";
 import { badRequest, internal, notFound } from "@hapi/boom";
-import { user, FindOneuserArgs, userCreateArgs } from "@prisma/client";
+import {
+  user,
+  FindOneuserArgs,
+  userCreateArgs,
+  userUpdateArgs
+} from "@prisma/client";
 import { isUser } from "../utils/user.type";
 import { ResponseToolkit } from "@hapi/hapi";
 
@@ -23,7 +28,7 @@ export const userHandler = async (
   return res;
 };
 
-export const postUserHandler = async (
+export const putUserHandler = async (
   h: ResponseToolkit,
   user: any,
   userCreate: (args: userCreateArgs) => Promise<user>
@@ -40,4 +45,26 @@ export const postUserHandler = async (
     return internal("No user created");
   }
   return h.response(res).code(201);
+};
+
+export const postUserHandler = async (
+  h: ResponseToolkit,
+  user: any,
+  userUpdate: (args: userUpdateArgs) => Promise<user>
+) => {
+  if (!isUser(user)) {
+    return badRequest("provided payload isn't of user type");
+  }
+  console.log("user", user);
+  const [res, err] = await of(
+    userUpdate({ data: user, where: { auth_id: user.auth_id } })
+  );
+  if (err) {
+    console.error(err);
+    return notFound(`Error: { name : ${err.name} message: ${err.message} }`);
+  }
+  if (!res) {
+    return internal("No user updated");
+  }
+  return h.response(res).code(200);
 };

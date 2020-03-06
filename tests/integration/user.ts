@@ -28,6 +28,7 @@ test.before(async t => {
       auth_id: "1"
     }
   });
+  prisma.disconnect();
 });
 
 test.after(async t => {
@@ -52,9 +53,9 @@ test("/user returns a 404 error", async t => {
   );
 });
 
-test("POST /user returns a 201", async t => {
+test("PUT /user returns a 201", async t => {
   const response = await fetch(`http://localhost:${port}/user`, {
-    method: "POST",
+    method: "PUT",
     body: JSON.stringify({
       auth_id: "testuser" + Math.random() * 10000,
       user_name: "testuser"
@@ -62,15 +63,15 @@ test("POST /user returns a 201", async t => {
   });
   t.assert(
     response.status === 201,
-    `Expected POST /user result to have status of 201, instead got ${
+    `Expected PUT /user result to have status of 201, instead got ${
       response.status
     } : ${JSON.stringify(await response.json())}`
   );
 });
 
-test("POST /user returns a 400 when given a bad payload", async t => {
+test("PUT /user returns a 400 when given a bad payload", async t => {
   const response = await fetch(`http://localhost:${port}/user`, {
-    method: "POST",
+    method: "PUT",
     body: JSON.stringify({
       authId: "testuser" + Math.random() * 10000,
       userName: "testuser"
@@ -78,6 +79,38 @@ test("POST /user returns a 400 when given a bad payload", async t => {
   });
   t.assert(
     response.status === 400,
-    `Expected POST /user result to have status of 400, instead got ${response.status}, response ${response.body}`
+    `Expected PUT /user result to have status of 400, instead got ${response.status}, response ${response.body}`
+  );
+});
+
+test("POST /user returns a 200", async t => {
+  const response = await fetch(`http://localhost:${port}/user`, {
+  method: "POST",
+  body: JSON.stringify({
+    auth_id: "1",
+    user_name: "testuser-modified"
+  })
+});
+t.assert(
+  response.status === 200,
+  `Expected POST /user result to have status of 200, instead got ${
+    response.status
+  } : ${JSON.stringify(await response.json())}`
+);
+});
+
+test("POST /user returns a 400 when given a bad payload", async t => {
+  const response = await fetch(`http://localhost:${port}/user`, {
+    method: "POST",
+    body: JSON.stringify({
+      auth_id: "invalid-id",
+      user_name: "testuser-modified"
+    })
+  });
+  t.assert(
+    response.status === 404,
+    `Expected POST /user result to have status of 404, instead got ${
+      response.status
+    } : ${JSON.stringify(await response.json())}`
   );
 });
