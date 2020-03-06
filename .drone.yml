@@ -103,7 +103,7 @@ steps:
       password:
         from_secret: GITHUB_TOKEN
       tags:
-        - ${DRONE_COMMIT_SHA:0:8}
+        - ${DRONE_TAG}
         - latest
     environment:
       DATABASE_URL:
