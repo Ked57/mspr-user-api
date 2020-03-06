@@ -50,5 +50,8 @@ test("userHandler can handle orm errors", async t => {
 });
 
 test("isUser guards the User type", t => {
-  t.assert(isUser(userMock[0]), "isUser can't type guard the User type properly")
-})
+  t.assert(
+    isUser(userMock[0]),
+    "isUser can't type guard the User type properly"
+  );
+});
