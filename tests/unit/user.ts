@@ -6,8 +6,7 @@ import {
   userMock,
   userFindOneThrowMock,
   userCreateMock,
-  hMock,
-  
+  hMock
 } from "../../mock/user";
 import { isUser } from "../../src/utils/user.type";
 
@@ -67,7 +66,12 @@ test("POST /user creates a user", async t => {
   if (err) {
     t.fail(`Error: { name: ${err.name}, message: ${err.message}}`);
   }
-  t.assert(result === user, `provided user and result don't match ${JSON.stringify(user)} === ${JSON.stringify(result)}`);
+  t.assert(
+    result === user,
+    `provided user and result don't match ${JSON.stringify(
+      user
+    )} === ${JSON.stringify(result)}`
+  );
 });
 
 test("POST /user fails if the request isn't correct", async t => {
