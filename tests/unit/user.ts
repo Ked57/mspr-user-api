@@ -1,12 +1,17 @@
 import test from "ava";
 import { of } from "await-of";
-import { userHandler, postUserHandler } from "../../src/handlers/userHandler";
+import {
+  userHandler,
+  putUserHandler,
+  postUserHandler
+} from "../../src/handlers/userHandler";
 import {
   userFindOneMock,
   userMock,
   userFindOneThrowMock,
   userCreateMock,
-  hMock
+  hMock,
+  userUpdateMock
 } from "../../mock/user";
 import { isUser } from "../../src/utils/user.type";
 
@@ -58,10 +63,37 @@ test("isUser guards the User type", t => {
   );
 });
 
-test("POST /user creates a user", async t => {
+test("PUT /user creates a user", async t => {
   const user = userMock[0];
   const [result, err] = await of(
-    postUserHandler(hMock as any, user, userCreateMock)
+    putUserHandler(hMock as any, user, userCreateMock)
+  );
+  if (err) {
+    t.fail(`Error: { name: ${err.name}, message: ${err.message}}`);
+  }
+  t.assert(
+    result === user,
+    `provided user and result don't match ${JSON.stringify(
+      user
+    )} === ${JSON.stringify(result)}`
+  );
+});
+
+test("PUT /user fails if the request isn't correct", async t => {
+  const user = {} as any;
+  const [result, err] = await of(
+    putUserHandler(hMock as any, user, userCreateMock)
+  );
+  if (err) {
+    t.fail(`Error { name: ${err.name}, message: ${err.message}}`);
+  }
+  t.assert(result.output.statusCode === 400, result.message);
+});
+
+test("POST /user updates a user", async t => {
+  const user = userMock[0];
+  const [result, err] = await of(
+    postUserHandler(hMock as any, user, userUpdateMock)
   );
   if (err) {
     t.fail(`Error: { name: ${err.name}, message: ${err.message}}`);
@@ -77,7 +109,7 @@ test("POST /user creates a user", async t => {
 test("POST /user fails if the request isn't correct", async t => {
   const user = {} as any;
   const [result, err] = await of(
-    postUserHandler(hMock as any, user, userCreateMock)
+    postUserHandler(hMock as any, user, userUpdateMock)
   );
   if (err) {
     t.fail(`Error { name: ${err.name}, message: ${err.message}}`);
