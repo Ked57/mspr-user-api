@@ -64,7 +64,7 @@ steps:
   - name: coverage-send
     image: node:12
     commands:
-      - cat $COVERALLS_TOKEN_FILE > .coveralls.yml
+      - echo $COVERALLS_TOKEN_FILE > .coveralls.yml
       - npm run coverage:send
     environment:
       COVERALLS_TOKEN_FILE:
