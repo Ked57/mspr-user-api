@@ -15,7 +15,7 @@ test.before(async t => {
   (t.context as any)["server"] = app;
   (t.context as any)["baseUrl"] = address;
   const prisma = new PrismaClient();
-  prisma.user.upsert({
+  await prisma.user.upsert({
     create: {
       auth_id: "1",
       user_name: "bobo cargo"
