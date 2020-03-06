@@ -75,6 +75,8 @@ steps:
       SSH_KEY:
         from_secret: DOC_SSH_KEY
     depends_on: [integration-test]
+    when:
+      branch: master
   - name: docker
     image: banzaicloud/drone-kaniko
     settings:
@@ -90,7 +92,9 @@ steps:
         - ${DRONE_COMMIT_SHA:0:8}
         - latest
     depends_on: [documentation]
-  - name: rollout
+    when:
+      event: tag
+  - name: deploy
     image: pabloclsn/kubectl-docker:latest
     commands:
       - echo $KUBE_CONFIG > ~/.kube/config
@@ -102,6 +106,8 @@ steps:
       KUBE_CONFIG:
         from_secret: KUBE_CONFIG
     depends_on: [docker]
+    when:
+      event: tag
 
   # - name: Semantical Versionning
   #   image: python:3.6
