@@ -53,14 +53,14 @@ steps:
     commands:
       - npm run test:integration:ci
     depends_on: [unit-test]
-  # - name: coverage-check
-  #   image: node:12
-  #   commands:
-  #     - npm run coverage:check
-  #   environment:
-  #     DATABASE_URL:
-  #       from_secret: TEST_DATABASE_URL
-  #   depends_on: [integration-test]
+  - name: coverage-check
+    image: node:12
+    commands:
+      - npm run coverage:check
+    environment:
+      DATABASE_URL:
+        from_secret: TEST_DATABASE_URL
+    depends_on: [integration-test]
   - name: coverage-send
     image: node:12
     commands:
@@ -69,12 +69,12 @@ steps:
     environment:
       COVERALLS_TOKEN_FILE:
         from_secret: COVERALLS_TOKEN_FILE
-    depends_on: [integration-test]
+    depends_on: [coverage-check]
   - name: build
     image: node:12
     commands:
       - npm run build
-    depends_on: [integration-test]
+    depends_on: [coverage-check]
   - name: documentation
     image: node:12
     commands:
