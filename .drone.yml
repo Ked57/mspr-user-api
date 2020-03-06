@@ -57,6 +57,9 @@ steps:
     image: node:12
     commands:
       - npm run coverage:check
+    environment:
+      DATABASE_URL:
+        from_secret: TEST_DATABASE_URL
     depends_on: [integration-test]
   - name: coverage-send
     image: node:12
