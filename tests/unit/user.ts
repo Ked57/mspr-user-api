@@ -1,6 +1,10 @@
 import test from "ava";
 import { of } from "await-of";
-import { userHandler, putUserHandler, postUserHandler } from "../../src/handlers/userHandler";
+import {
+  userHandler,
+  putUserHandler,
+  postUserHandler
+} from "../../src/handlers/userHandler";
 import {
   userFindOneMock,
   userMock,

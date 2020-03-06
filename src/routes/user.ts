@@ -2,7 +2,11 @@ import { ServerRoute } from "@hapi/hapi";
 import { PrismaClient } from "@prisma/client";
 import { userModel } from "../models/user";
 import { errorModel } from "../models/error";
-import { userHandler, putUserHandler, postUserHandler } from "../handlers/userHandler";
+import {
+  userHandler,
+  putUserHandler,
+  postUserHandler
+} from "../handlers/userHandler";
 import { parse } from "../utils/parse";
 
 export const initUsersRoute = (prisma: PrismaClient): ServerRoute[] => [

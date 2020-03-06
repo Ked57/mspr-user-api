@@ -85,18 +85,18 @@ test("PUT /user returns a 400 when given a bad payload", async t => {
 
 test("POST /user returns a 200", async t => {
   const response = await fetch(`http://localhost:${port}/user`, {
-  method: "POST",
-  body: JSON.stringify({
-    auth_id: "1",
-    user_name: "testuser-modified"
-  })
-});
-t.assert(
-  response.status === 200,
-  `Expected POST /user result to have status of 200, instead got ${
-    response.status
-  } : ${JSON.stringify(await response.json())}`
-);
+    method: "POST",
+    body: JSON.stringify({
+      auth_id: "1",
+      user_name: "testuser-modified"
+    })
+  });
+  t.assert(
+    response.status === 200,
+    `Expected POST /user result to have status of 200, instead got ${
+      response.status
+    } : ${JSON.stringify(await response.json())}`
+  );
 });
 
 test("POST /user returns a 400 when given a bad payload", async t => {
