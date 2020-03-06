@@ -6,7 +6,7 @@ export const userHandler = async (
   paramId: string,
   userFindOne: (args: FindOneuserArgs) => Promise<user>
 ) => {
-  console.log("paramId", paramId)
+  console.log("paramId", paramId);
   if (!paramId) {
     console.error("Error: no id provided");
     return badRequest("no id provided");
