@@ -46,18 +46,27 @@ steps:
   - name: unit-test
     image: node:12
     commands:
-      - npm run test:unit
+      - npm run test:unit:ci
     depends_on: [prisma_generate, postgres, lint, check_format]
   - name: integration-test
     image: node:12
     commands:
-      - npm run test:integration
+      - npm run test:integration:ci
     depends_on: [unit-test]
+  - name: coverage-send
+    image: node:12
+    commands:
+      - echo $COVERALLS_TOKEN_FILE > .coveralls.yml
+      - npm run coverage:send
+    environment:
+      COVERALLS_TOKEN_FILE:
+        from_secret: COVERALLS_TOKEN_FILE
+    depends_on: [integration-test]
   - name: build
     image: node:12
     commands:
       - npm run build
-    depends_on: [integration-test]
+    depends_on: [coverage-send]
   - name: documentation
     image: node:12
     commands:
@@ -81,7 +90,7 @@ steps:
         from_secret: DOC_REPOSITORY_URL
       SSH_KEY:
         from_secret: DOC_SSH_KEY
-    depends_on: [integration-test]
+    depends_on: [coverage-send]
     when:
       branch: master
   - name: docker
