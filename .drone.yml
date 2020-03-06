@@ -43,16 +43,11 @@ steps:
     commands:
       - npm run lint
     depends_on: [prisma_generate]
-  - name: unit-test
+  - name: integration-and-unit-test
     image: node:12
     commands:
-      - npm run test:unit:ci
+      - npm run test:ci
     depends_on: [prisma_generate, postgres, lint, check_format]
-  - name: integration-test
-    image: node:12
-    commands:
-      - npm run test:integration:ci
-    depends_on: [unit-test]
   - name: coverage-send
     image: node:12
     commands:
@@ -61,7 +56,7 @@ steps:
     environment:
       COVERALLS_TOKEN_FILE:
         from_secret: COVERALLS_TOKEN_FILE
-    depends_on: [integration-test]
+    depends_on: [integration-and-unit-test]
   - name: build
     image: node:12
     commands:

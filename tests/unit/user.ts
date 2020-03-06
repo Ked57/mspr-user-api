@@ -1,10 +1,13 @@
 import test from "ava";
 import { of } from "await-of";
-import { userHandler } from "../../src/handlers/userHandler";
+import { userHandler, postUserHandler } from "../../src/handlers/userHandler";
 import {
   userFindOneMock,
   userMock,
-  userFindOneThrowMock
+  userFindOneThrowMock,
+  userCreateMock,
+  hMock,
+  
 } from "../../mock/user";
 import { isUser } from "../../src/utils/user.type";
 
@@ -54,4 +57,26 @@ test("isUser guards the User type", t => {
     isUser(userMock[0]),
     "isUser can't type guard the User type properly"
   );
+});
+
+test("POST /user creates a user", async t => {
+  const user = userMock[0];
+  const [result, err] = await of(
+    postUserHandler(hMock as any, user, userCreateMock)
+  );
+  if (err) {
+    t.fail(`Error: { name: ${err.name}, message: ${err.message}}`);
+  }
+  t.assert(result === user, `provided user and result don't match ${JSON.stringify(user)} === ${JSON.stringify(result)}`);
+});
+
+test("POST /user fails if the request isn't correct", async t => {
+  const user = {} as any;
+  const [result, err] = await of(
+    postUserHandler(hMock as any, user, userCreateMock)
+  );
+  if (err) {
+    t.fail(`Error { name: ${err.name}, message: ${err.message}}`);
+  }
+  t.assert(result.output.statusCode === 400, result.message);
 });

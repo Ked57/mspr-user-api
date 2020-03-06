@@ -39,7 +39,7 @@ export const main = async (port: string) => {
     await server.start();
     console.log("Server running at:", server.info.uri);
   } catch (err) {
-    console.log(err);
+    console.log("Couldn't start server: ", err);
   }
   return { app: server, address: server.info.uri };
 };
