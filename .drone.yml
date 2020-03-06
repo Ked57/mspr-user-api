@@ -92,7 +92,7 @@ steps:
         from_secret: DOC_SSH_KEY
     depends_on: [coverage-send]
     when:
-      branch: master
+      event: tag
   - name: docker
     image: banzaicloud/drone-kaniko
     settings:
