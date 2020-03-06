@@ -6,6 +6,7 @@ import {
   userMock,
   userFindOneThrowMock
 } from "../../mock/user";
+import { isUser } from "../../src/utils/user.type";
 
 test("/user/{id} returns an user", async t => {
   const paramId = "1";
@@ -47,3 +48,7 @@ test("userHandler can handle orm errors", async t => {
   }
   t.deepEqual(result.message, "Error: { name : error message: test }");
 });
+
+test("isUser guards the User type", t => {
+  t.assert(isUser(userMock[0]), "isUser can't type guard the User type properly")
+})
