@@ -19,9 +19,7 @@
     "format:check": "npm run prettier -- --list-different",
     "format:fix": "npm run prettier -- --write",
     "doc": "typedoc --options typedoc.json",
-    "coverage:report": "nyc --reporter=lcov --reporter=text-summary ava",
-    "coverage:send": "nyc report --reporter=text-lcov | coveralls",
-    "coverage:check": "nyc ava"
+    "coverage:send": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
