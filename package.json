@@ -14,7 +14,7 @@
     "test:watch": "ava --watch",
     "test:unit": "ava tests/unit/{**,/}*.ts",
     "test:integration": "ava tests/integration/{**,/}*.ts",
-    "test:unit:ci": "nyc --reporter=lcov --reporter=text-summary ava tests/unit/{**,/}*.ts",
+    "test:unit:ci": "nyc --reporter=lcov --reporter=text-summary ava tests/unit/{**,/}*.ts --concurrency=2",
     "test:integration:ci": "nyc --reporter=lcov --reporter=text-summary ava tests/integration/{**,/}*.ts",
     "test:unit:watch": "ava --watch tests/unit/{**,/}*.ts",
     "test:integration:watch": "ava --watch tests/integration/{**,/}*.ts",
