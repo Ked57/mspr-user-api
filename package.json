@@ -18,7 +18,7 @@
     "test:integration:ci": "nyc --reporter=lcov --reporter=text-summary ava tests/integration/{**,/}*.ts",
     "test:unit:watch": "ava --watch tests/unit/{**,/}*.ts",
     "test:integration:watch": "ava --watch tests/integration/{**,/}*.ts",
-    "test:ci": "nyc --reporter=lcov --reporter=text-summary ava --concurrency=2",
+    "test:ci": "nyc --reporter=lcov --reporter=text-summary ava --timeout=2m",
     "prettier": "prettier .circleci/config.yml  src/{**/,}*.{ts,json} tests/{**/,}*.{ts,json}",
     "format:check": "npm run prettier -- --list-different",
     "format:fix": "npm run prettier -- --write",
