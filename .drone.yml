@@ -111,6 +111,16 @@ steps:
     depends_on: [documentation]
     when:
       event: tag
+  - name: prisma_migrate_production
+    image: node:12
+    commands:
+      - npx prisma2 migrate up --experimental
+    environment:
+      DATABASE_URL:
+        from_secret: DATABASE_URL
+    depends_on: [docker]
+    when:
+      event: tag
   - name: deploy
     image: pabloclsn/kubectl-docker:latest
     commands:
@@ -122,7 +132,7 @@ steps:
         from_secret: DATABASE_URL
       KUBE_CONFIG:
         from_secret: KUBE_CONFIG
-    depends_on: [docker]
+    depends_on: [prisma_migrate_production]
     when:
       event: tag
 
