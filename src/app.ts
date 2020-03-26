@@ -10,7 +10,12 @@ const PORT = process.env.PORT || "3000";
 export const main = async (port: string) => {
   const server = await new Hapi.Server({
     host: "0.0.0.0",
-    port
+    port,
+    routes: {
+      cors: {
+        origin: ["*"]
+      }
+    }
   });
   const swaggerOptions: HapiSwagger.RegisterOptions = {
     info: {
