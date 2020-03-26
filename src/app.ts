@@ -14,7 +14,7 @@ export const main = async (port: string) => {
   });
   const swaggerOptions: HapiSwagger.RegisterOptions = {
     info: {
-      title: "Test API Documentation"
+      title: "MSPR User API documentation"
     }
   };
 
