@@ -33,6 +33,9 @@ export const main = async (port: string) => {
     {
       plugin: HapiSwagger,
       options: swaggerOptions
+    },
+    {
+      plugin: require("hapi-cors")
     }
   ];
   const prisma = new PrismaClient();
