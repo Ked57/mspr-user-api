@@ -10,12 +10,7 @@ const PORT = process.env.PORT || "3000";
 export const main = async (port: string) => {
   const server = await new Hapi.Server({
     host: "0.0.0.0",
-    port,
-    routes: {
-      cors: {
-        origin: ["*"]
-      }
-    }
+    port
   });
   const swaggerOptions: HapiSwagger.RegisterOptions = {
     info: {
@@ -33,6 +28,9 @@ export const main = async (port: string) => {
     {
       plugin: HapiSwagger,
       options: swaggerOptions
+    },
+    {
+      plugin: require("hapi-cors")
     }
   ];
   const prisma = new PrismaClient();
